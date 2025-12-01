@@ -1,173 +1,192 @@
-📚 EduPlatform API - Cours MERN
-🌟 Vue d'ensemble
+# 📚 EduPlatform API – RESTful Learning Platform
 
-Ce projet est une API REST pour une plateforme de cours en ligne, démontrant la maîtrise des relations de données dans MongoDB via Mongoose. L'API gère :
+## 🌐 Présentation du projet
 
-Utilisateurs et profils
+**EduPlatform** est une API REST conçue pour une plateforme d’apprentissage en ligne.
+Elle permet la gestion complète des utilisateurs, des profils, des cours, des inscriptions et des avis.
 
-Cours et inscriptions
+Ce projet vise à démontrer la maîtrise de :
 
-Critiques et évaluations
+* MongoDB & Mongoose
+* Architecture RESTful
+* Relations entre collections (NoSQL)
+* Authentification sécurisée via JWT
+* Structuration propre d’une API backend
 
-C’est un projet éducatif réalisé par Hedyene Mili pour démontrer la conception d’une architecture RESTful complète et sécurisée.
+---
 
-🎯 Objectifs pédagogiques
+## 🎯 Objectifs du projet
 
-Compétences acquises :
+* Gérer les utilisateurs (étudiant / instructeur / admin)
+* Créer, modifier et supprimer des cours
+* Permettre l’inscription des utilisateurs aux cours
+* Gérer les avis (reviews) sur les cours
+* Sécuriser les routes avec JWT
+* Appliquer une architecture backend propre et organisée
 
-Implémentation complète d’un CRUD pour plusieurs ressources
+---
 
-Modélisation et gestion des relations 1:1, 1:N, N:M
+## 🛠️ Technologies utilisées
 
-Utilisation avancée de Mongoose (populate, références)
+* **Node.js**
+* **Express.js**
+* **MongoDB**
+* **Mongoose**
+* **JWT (JSON Web Token)**
+* **Postman / Thunder Client** (pour le test des routes)
 
-Conception d’une architecture RESTful logique
+---
 
-Mise en place d’un système d’authentification JWT
+## 📊 Diagramme de l’architecture générale
 
-🛠️ Technologies utilisées
-Backend
+```mermaid
+flowchart LR
+    Client -->|HTTP Requests| API(Express API)
+    API --> MongoDB[(MongoDB Database)]
+    API --> Auth[JWT Authentication]
+```
 
-🟢 Node.js - Runtime JavaScript côté serveur
+---
 
-⚡ Express.js - Framework web minimaliste
+## 📊 Diagramme des relations de données (UML simplifié)
 
-🍃 MongoDB - Base de données NoSQL
+```mermaid
+classDiagram
+    User --> Profile : has
+    User --> Enrollment : creates
+    Course --> Enrollment : contains
+    Course --> Review : receives
+    User --> Review : writes
 
-🔗 Mongoose - ODM pour MongoDB
+    class User {
+        +String name
+        +String email
+        +String password
+        +String role
+    }
 
-🔐 bcryptjs - Hashage sécurisé des mots de passe
+    class Profile {
+        +String bio
+        +String education
+        +String skills
+    }
 
-🎫 jsonwebtoken (JWT) - Authentification par tokens
+    class Course {
+        +String title
+        +String description
+        +Number price
+    }
 
-🌍 dotenv - Gestion des variables d’environnement
+    class Enrollment {
+        +Date enrollmentDate
+        +String status
+    }
 
-Outils de développement
+    class Review {
+        +Number rating
+        +String comment
+    }
+```
 
-📮 Postman / Thunder Client - Tests des API
+---
 
-🔧 Nodemon - Rechargement automatique du serveur
+## 🗂️ Structure du projet
 
-📦 npm - Gestionnaire de paquets
-
-🐙 Git - Contrôle de version
-
-🗂️ Structure du projet
+```
 EduPlatform/
-├─ server.js
-├─ .env
-├─ config/
-│ └─ db.js
-├─ images/
-├─ models/
-│ ├─ User.js
-│ ├─ Profile.js
-│ ├─ Course.js
-│ └─ Review.js
-├─ controllers/
-│ ├─ userController.js
-│ ├─ profileController.js
-│ ├─ courseController.js
-│ └─ reviewController.js
-├─ routes/
-│ ├─ userRoutes.js
-│ └─ courseRoutes.js
-└─ middleware/
-├─ authMiddleware.js
-└─ errorMiddleware.js
+│
+├── src/
+│   ├── controllers/
+│   ├── models/
+│   ├── routes/
+│   ├── middlewares/
+│   ├── config/
+│   └── app.js
+│
+├── .env
+├── package.json
+└── server.js
+```
 
-🚀 Installation
+---
 
-Prérequis : Node.js (v14+), npm ou yarn, Postman
+## 🔗 Relations entre les collections
 
+| Collection          | Relation |
+| ------------------- | -------- |
+| User → Profile      | 1 : 1    |
+| User → Enrollment   | 1 : N    |
+| Course → Enrollment | 1 : N    |
+| Course → Review     | 1 : N    |
+| User → Review       | 1 : N    |
+
+✅ Cela signifie :
+
+* Un utilisateur possède un seul profil
+* Un utilisateur peut s’inscrire à plusieurs cours
+* Un cours peut avoir plusieurs inscriptions
+* Un cours peut recevoir plusieurs avis
+* Chaque avis est écrit par un utilisateur
+
+---
+
+## 🚀 Installation & lancement
+
+1. Cloner le projet :
+
+```
+git clone https://github.com/username/EduPlatform.git
+```
+
+2. Installer les dépendances :
+
+```
 npm install
-node server.js
+```
 
-Messages attendus :
+3. Créer un fichier `.env` :
 
-✅ MongoDB connected
-✅ Server running on port 3000
+```
+PORT=5000
+MONGO_URI=your_mongodb_uri
+JWT_SECRET=your_secret_key
+```
 
-📊 Architecture des données
-Schéma général des relations
-USER ↔ PROFILE (1:1)
-USER ↔ COURSE (N:M)
-COURSE → REVIEW (1:N)
+4. Lancer le serveur :
 
-Relations expliquées :
+```
+npm start
+```
 
-1️⃣ One-to-One (User ↔ Profile)
+Le serveur fonctionne par défaut sur :
 
-Chaque utilisateur possède un seul profil.
+```
+http://localhost:5000
+```
 
-Référence stockée dans Profile pour plus de flexibilité.
+---
 
-2️⃣ One-to-Many (Course → Reviews)
+## ✅ Fonctionnalités implémentées
 
-Un cours peut avoir plusieurs critiques, chaque critique appartient à un seul cours.
+* Authentification (register / login)
+* CRUD Utilisateurs
+* CRUD Cours
+* Inscriptions aux cours
+* Gestion des avis (reviews)
+* Routes protégées avec JWT
+* Structure MVC (models / controllers / routes)
 
-Référence stockée côté Review pour éviter les documents volumineux.
+---
 
-3️⃣ Many-to-Many (User ↔ Course)
+## 👩‍💻 Auteur
 
-Un utilisateur peut s’inscrire à plusieurs cours et un cours peut avoir plusieurs étudiants.
+**Hedyene Mili**
+Étudiante en Génie Informatique – Data Science & Intelligence Artificielle
+École Polytechnique de Sousse
 
-Références double : User.courses et Course.students.
 
-Exemple d’inscription bidirectionnelle :
+---
 
-course.students.push(userId);
-user.courses.push(courseId);
-await course.save();
-await user.save();
 
-🔐 Authentification JWT
 
-JWT = JSON Web Token, sécurisé pour transmettre des infos entre client et serveur.
-
-Composé de : Header + Payload + Signature
-
-Protège les routes via un middleware qui vérifie le token.
-
-Exemple :
-
-// Middleware protect
-const protect = async (req, res, next) => {
-const token = req.headers.authorization?.split(' ')[1];
-if(!token) return res.status(401).json({ message: 'Accès refusé' });
-
-const decoded = jwt.verify(token, process.env.JWT_SECRET);
-req.userId = decoded.userId;
-next();
-}
-
-🌐 Endpoints principaux
-Auth (public)
-
-POST /api/auth/register → Inscription
-
-POST /api/auth/login → Connexion
-
-Users
-
-GET /api/users/ → Liste utilisateurs
-
-GET /api/users/:id → Détails utilisateur
-
-GET /api/users/:userId/profile → Profil utilisateur (🔒)
-
-GET /api/users/:userId/courses → Cours utilisateur (🔒)
-
-Courses
-
-POST /api/courses → Créer cours (🔒)
-
-GET /api/courses → Liste cours
-
-POST /api/courses/:courseId/enroll → Inscription utilisateur (🔒)
-
-Reviews
-
-POST /api/courses/:courseId/reviews → Ajouter critique (🔒)
-
-🔒 Routes protégées par JWT, ⚪ routes publiques.
+Ce projet démontre une bonne maîtrise du développement Backend moderne avec Node.js et MongoDB.
