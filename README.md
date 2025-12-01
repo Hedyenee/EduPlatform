@@ -94,18 +94,27 @@ classDiagram
 
 ```
 EduPlatform/
-│
-├── src/
-│   ├── controllers/
-│   ├── models/
-│   ├── routes/
-│   ├── middlewares/
-│   ├── config/
-│   └── app.js
-│
-├── .env
-├── package.json
-└── server.js
+├─ server.js
+├─ .env
+├─ config/
+│ └─ db.js
+├─ images/
+├─ models/
+│ ├─ User.js
+│ ├─ Profile.js
+│ ├─ Course.js
+│ └─ Review.js
+├─ controllers/
+│ ├─ userController.js
+│ ├─ profileController.js
+│ ├─ courseController.js
+│ └─ reviewController.js
+├─ routes/
+│ ├─ userRoutes.js
+│ └─ courseRoutes.js
+└─ middleware/
+├─ authMiddleware.js
+└─ errorMiddleware.js
 ```
 
 ---
